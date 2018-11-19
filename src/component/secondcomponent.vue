@@ -8,9 +8,12 @@
       大神的技术指导
     </p>
     <ul>
-      <h1>{{title}}</h1>
-      <li v-for="article in articles">
-        <h2>{{article.title}}</h2>
+      <h1>{{jsonData.title}}</h1>
+      <li v-for="(item, index) in articles">
+        <h2>
+          {{index + 1}} - <a :href="item.alt" target="_blank">{{item.title}}</a>
+          <img  v-bind:src="getImages(item.casts[0].avatars.large)"/>
+        </h2>
       </li>
     </ul>
   </div>
@@ -20,6 +23,7 @@
     data() {
       return {
         author: "微信公众号 yemingrujing",
+        jsonData: [],
         articles: []
       }
     },
@@ -31,15 +35,27 @@
         emulateJSON: true
       }).then(function(response){
         // 这里是处理正确的回调
-        this.title = response.data.title
+        this.jsonData = response.data
         this.articles = response.data.subjects
-        console.log(response.data.title)
         console.log(response.data.subjects)
         // this.articles = response.data["subjects"] 也可以
       }, function(response) {
         // 这里是处理错误的回调
         console.log(response)
       })
+    },methods: {
+      getImages(_url) {
+        if( _url !== undefined ){
+          let _u = _url.substring( 7 );
+          return 'https://images.weserv.nl/?url=' + _u;
+        }
+      }
     }
   }
 </script>
+
+<style media="screen">
+  li {
+    display:inline
+  }
+</style>

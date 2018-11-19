@@ -1,5 +1,7 @@
 var path = require('path')
 var webpack = require('webpack')
+const HOST = '0.0.0.0'
+const PORT = '8081'
 
 module.exports = {
   entry: './src/main.js',
@@ -78,7 +80,9 @@ module.exports = {
   devServer: {
     historyApiFallback: true,
     noInfo: true,
-    overlay: true
+    overlay: true,
+    host: HOST,
+    port: PORT
   },
   performance: {
     hints: false
